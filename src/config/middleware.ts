@@ -4,7 +4,8 @@ class Middleware {
 
     public static routes(app: any): void {
         app.all("*",  loggerMiddleware);
-        app.use("/api/*", Validate.authenticateUser);
+       // app.use("/api/*", Validate.authenticateUser);
+        // app.use('/course/*')
     }
 }
 

@@ -10,6 +10,7 @@ class FileService {
 
     private static _singleton: boolean = true;
     private static _instance: FileService;
+    
 
     public storage = multer.diskStorage({
         destination: function (req, file, cb) {
@@ -44,6 +45,7 @@ class FileService {
         return multer({
         storage: this.storage,
         fileFilter: function (req, file, callback) {
+            console.log(file);
             var ext = path.extname(file.originalname);
             if(ext !== '.zip') {
                 return callback(new Error('Only zip are allowed'))
@@ -55,9 +57,19 @@ class FileService {
     public async extractFileToFolder(file) {
         const zipPath = file.path;
         return new Promise((resolve,reject) =>{
-            const fileExtracted = fs.createReadStream(zipPath).pipe(unzipper.Extract({ path: file.path.replace(".zip","") }));
+            // const fileExtracted = fs.createReadStream(zipPath).pipe(unzipper.Extract({ path: file.path.replace(".zip","") }));
+            const date = new Date();
+            const timestamp = date.getTime();
+            const foldername = `activity${timestamp}`
+            const outputpath = path.join(rootPath, `./courses/${foldername}`);
+            // console.log(file.path);
+    
+            const fileExtracted = fs.createReadStream(zipPath).pipe(unzipper.Extract({ path: outputpath }));
             fileExtracted.on('finish', (err)=>{
-                resolve({error:false})
+                if(err) {
+                    return resolve({error: true, errorMsg: err})
+                }
+                resolve({error:false, activity_path: outputpath, activity_name: foldername});
             })
         })
     }

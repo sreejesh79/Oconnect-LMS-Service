@@ -12,6 +12,7 @@ import RouterConfig from 'config/routes';
 import Validate from 'middlewares/validate';
 import Middleware from './config/middleware';
 
+
 class App {
 
     public app: express.Application;
@@ -40,7 +41,18 @@ class App {
         app.use(cookieParser());
         //Enables cors   
         app.use(cors());
-
+        /*app.use('/course', (req, res, next) => {
+            console.log("am here");
+            const course_path = path.join(__dirname, '../courses');
+            console.log(course_path);
+            return express.static(course_path);
+        })*/
+        const course_path = path.join(__dirname, '../courses');
+        app.use('/course/*', (req, res, next) => {
+            console.log("am here2");
+            next();
+        })
+        app.use('/course', express.static(course_path));
         this.configRoutes(app);
         // error handling
         this.initErrorHandling(app);

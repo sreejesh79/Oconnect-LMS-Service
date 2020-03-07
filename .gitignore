@@ -2,10 +2,7 @@ node_modules
 package-lock.json
 dist
 .env*
-<<<<<<< HEAD
 .DS_Store
 courses
-=======
 .tmp
 .DS_Store
->>>>>>> 5f84c7f73c38fb048ed0a231cf5fb01ad100e109
