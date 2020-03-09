@@ -22,7 +22,7 @@ const UserProfileSchema: Schema = new Schema({
     area_of_interest: {type:Types.String},
     photo: {type: Types.ObjectId, ref: "File"},
     user: {type: Types.ObjectId, ref: "User"}
-});
+}, { timestamps: true});
 
 /* UserProfileSchema.pre("validate", (next) => {
     console.log(this.default.model);

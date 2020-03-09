@@ -21,7 +21,7 @@ const ChapterSchema: Schema = new Schema({
     parent: {type: Types.ObjectId, ref: "Chapter"},
     children: {type: [Types.ObjectId], ref: "Chapter"},
     weightage: {type: Types.Number}
-});
+}, { timestamps: true});
 
 /* RoleSchema.pre("validate", (next) => {
     console.log(this.default.model);

@@ -15,7 +15,7 @@ const MemberSchema: Schema = new Schema({
     user: {type: Types.ObjectId, ref: "User"},
     chapter: {type: Types.ObjectId, ref: "Chapter"},
     isCoordinator: {type: Types.Boolean, default:"false"}
-});
+}, { timestamps: true});
 
 const MemberModel: Model<IMemberModel> = model<IMemberModel>("Member", MemberSchema);
 export default MemberModel;

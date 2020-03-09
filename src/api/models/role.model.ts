@@ -15,7 +15,7 @@ const RoleSchema: Schema = new Schema({
     name: {type: Types.String, required: true},
     machine_name: {type: Types.String, required: true, unique: true, index: true},
     users: {type: [Types.ObjectId], ref: "User"},
-});
+}, { timestamps: true});
 
 /* RoleSchema.pre("validate", (next) => {
     console.log(this.default.model);

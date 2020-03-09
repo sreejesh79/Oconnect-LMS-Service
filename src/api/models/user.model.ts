@@ -20,7 +20,7 @@ const UserSchema: Schema = new Schema({
     token: { type: Types.String, index: true },
     active: {type: Types.Number, enum:[0,1], default:0},
     full_name: {type: Types.String, required: false}
-});
+}, { timestamps: true});
 
 UserSchema.pre<any>("save", function (next: any) {
     if ( this.password && this.isModified('password') ) {
