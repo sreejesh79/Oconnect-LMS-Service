@@ -1,5 +1,6 @@
 import FileUtils from "../../../utils/fileutils";
 import TrackingService from "./tracking.service";
+import AUModel from "../../models/au.model";
 
 class CMI5Service extends TrackingService {
     private static _singleton: boolean = true;
@@ -57,6 +58,14 @@ class CMI5Service extends TrackingService {
             console.error(err)
         }
         return isValid;
+    }
+
+    public async create(data: any): Promise<any> {
+        data.title = JSON.stringify(data.title);
+        data.description = JSON.stringify(data.description);
+        data.url = JSON.stringify(data.url);
+       const newAu: any = await AUModel.create(data);
+       return newAu;
     }
 }
 

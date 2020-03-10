@@ -13,6 +13,21 @@ export class CourseController {
 
         }
     }
+
+    public static async create(req, res): Promise<any> {
+        try {
+            const response = await CourseService.createNew(req.body);
+            return res.status(200).json(response);
+        } catch (e) {
+            console.log(e);
+            const errorData = {
+                error: true,
+                message: e.message
+            }
+           return res.status(501).json(errorData);
+        }
+    }
+
     public static async launch(req, res): Promise <any> {
         console.log(__dirname);
         console.log(`${__dirname}/sample_course`);

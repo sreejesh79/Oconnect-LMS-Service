@@ -8,7 +8,8 @@ class RouterConfig {
     public static routes(router: any): any {
         router.get("/", MainController.index);
         router.get("/api/users", UserController.getUser);
-        router.post("/api/v1/admin/courses/upload", CourseController.uploadPackage);    
+        router.post("/api/v1/admin/course/upload", CourseController.uploadPackage);
+        router.post("/api/v1/admin/course/create", CourseController.create);
         }
 }
 

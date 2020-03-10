@@ -21,6 +21,10 @@ class TrackingService {
         return false;
     }
 
+    public async create(data: any): Promise<any>  {
+
+    }
+
    
 }
 

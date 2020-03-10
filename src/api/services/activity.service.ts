@@ -27,8 +27,14 @@ class ActivityService {
         return this._instance;
     }
 
-    public async create(data: any):Promise<any> {
-
+    public async create(data: any, trackMode: string):Promise<any> {
+        switch (trackMode) {
+            case ActivityService.TRACK_MODE_CMI5 :
+                const newCMI5: any = await CMI5Service.create(data.courseStructure.au);
+                return newCMI5;
+            break;
+        
+        }
     }
 
     public  getTrackModeFromPackage(packageFolder): string {
@@ -42,14 +48,23 @@ class ActivityService {
         return trackMode;
     }
 
-    public verifyPackage( rootFolder: string, trackMode: string): boolean {
+    public  verifyPackage( rootFolder: string, trackMode: string):any {
         let isValid: boolean = true;
         
         switch (trackMode) {
             case ActivityService.TRACK_MODE_CMI5 :
                 const data: any = CMI5Service.loadManifest(rootFolder);
-                console.log(data);
+               // console.log("data", data);
                 isValid = CMI5Service.amIValid(data, rootFolder);
+                if (isValid) {
+                    return data;
+                } else {
+                    return {
+                        error: true,
+                        message: "not a valid cmi5.xml"
+                    }
+                }
+                
             break;
             case ActivityService.TRACK_MODE_XAPI :
             break;
@@ -57,10 +72,11 @@ class ActivityService {
 
         return isValid;
     }
-
+    
+    
     
 
     
 }
 
-export default ActivityService.instance;
+export default ActivityService;

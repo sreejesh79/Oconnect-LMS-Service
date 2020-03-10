@@ -1,6 +1,6 @@
 import path from 'path';
 export class LMSConstants {
-    public static readonly TMP_FOLDER_PATH: string = path.join(__dirname, '../../.tmp');
+    public static readonly TMP_FOLDER_PATH: string = path.join(__dirname, '../.tmp');
 }
 
 export class CourseConstants {

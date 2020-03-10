@@ -8,6 +8,7 @@ import pify from "pify";
 import { rootPath } from '../../../root';
 import ActivityService from "./activity.service";
 import { LMSConstants, CourseConstants } from "config/constants";
+import CourseModel from "models/course.model";
 
 class CourseService {
     private static _singleton: boolean = true;
@@ -74,12 +75,23 @@ class CourseService {
 
     public async createNew(data: any): Promise<any> {
         if ( data.trackmode != "none") {
-            const zipPath: string = path.join(CourseConstants.COURSE_PACKAGE_FOLDER_PATH, data.filaname);
+           // const auData: any = {};
+           let courseData: any = {};
+            const zipPath: string = path.join(CourseConstants.COURSE_PACKAGE_FOLDER_PATH, data.filename);
             const fileExtract: any = await this.extractFileToFolder(zipPath);
             if(!fileExtract.error) {
-                const trackMode: string = ActivityService.getTrackModeFromPackage(fileExtract.activity_path);
-                const isValid : boolean = ActivityService.verifyPackage(fileExtract.activity_path, trackMode);
-                
+                const trackMode: string = ActivityService.instance.getTrackModeFromPackage(fileExtract.activity_path);
+                const isValidData : any = ActivityService.instance.verifyPackage(fileExtract.activity_path, trackMode);
+                console.log("isValidData", isValidData);
+                if (isValidData && !isValidData.error) {
+                    const newActivity: any = await ActivityService.instance.create(isValidData, trackMode);
+                    const newCourse: any = await this.createCourse(trackMode, isValidData, newActivity);
+                    const findCourse: any = await CourseModel.findById(newCourse._id).populate("sco");
+                    return findCourse;
+                   // return isValidData;
+                } else {
+                    return isValidData;
+                }
             // return isValid;
 
             }
@@ -88,7 +100,7 @@ class CourseService {
     }
 
     private async extractFileToFolder(file) {
-        const zipPath = file.path;
+        const zipPath = file;
         return new Promise((resolve,reject) =>{
             // const fileExtracted = fs.createReadStream(zipPath).pipe(unzipper.Extract({ path: file.path.replace(".zip","") }));
             const date = new Date();
@@ -109,6 +121,23 @@ class CourseService {
 
     public  removeZip(path) {
         return fs.unlinkSync(path)
+    }
+
+    private async createCourse(trackMode: string, data: any, newActivity: any): Promise <any> {
+        
+        switch (trackMode) {
+            case ActivityService.TRACK_MODE_CMI5:
+                const courseData: any = data.courseStructure.course;
+                console.log("courseData", courseData);
+                courseData.title = JSON.stringify(courseData.title);
+                courseData.description = JSON.stringify(courseData.description);
+                courseData.sco = newActivity._id;
+                courseData.onModel = "AU";
+
+                const newCourse: any = await CourseModel.create(courseData);
+                return newCourse;
+                break;
+        }
     }
 
 }
