@@ -1,15 +1,14 @@
 import { Document, Schema, Model, model } from "mongoose";
-import UtilityScripts from "../../utils/utilityscripts";
 
-interface IActivity extends Document {
+interface IChapterActivity extends Document {
    
 }
-interface IActivityModel extends IActivity, Document {
+interface IChapterActivityModel extends IChapterActivity, Document {
     
 }
 
 const Types = Schema.Types;
-const ActivitySchema: Schema = new Schema({
+const ChapterActivitySchema: Schema = new Schema({
     trackmode: {type: Types.String, enum: ["none", "cmi5", "xapi"]},
     chapter: {type: Types.ObjectId, ref: "Chapter", required: true, index: true},
     entity: {type: Types.ObjectId, refPath: "onModel", index: true},
@@ -17,5 +16,5 @@ const ActivitySchema: Schema = new Schema({
     createdBy: { type: Types.ObjectId, ref: "User", required: true }
 }, { timestamps: true});
 
-const ActivityModel: Model<IActivityModel> = model<IActivityModel>("Activity", ActivitySchema);
-export default ActivityModel;
+const ChapterActivityModel: Model<IChapterActivityModel> = model<IChapterActivityModel>("ChapterActivity", ChapterActivitySchema);
+export default ChapterActivityModel;

@@ -9,10 +9,13 @@ import { rootPath } from '../../../root';
 import ActivityService from "./activity.service";
 import { LMSConstants, CourseConstants } from "config/constants";
 import CourseModel from "models/course.model";
+import ChapterActivityService from "./chapteractivity.service";
 
 class CourseService {
     private static _singleton: boolean = true;
     private static _instance: CourseService;
+
+    
 
     public storage = multer.diskStorage({
         destination: function (req, file, cb) {
@@ -86,9 +89,15 @@ class CourseService {
                 if (isValidData && !isValidData.error) {
                     const newActivity: any = await ActivityService.instance.create(isValidData, trackMode);
                     const newCourse: any = await this.createCourse(trackMode, isValidData, newActivity);
-                    const findCourse: any = await CourseModel.findById(newCourse._id).populate("sco");
-                    return findCourse;
+                   // const findCourse: any = await CourseModel.findById(newCourse._id).populate("sco");
+                   const newChapterActivity: any = await ChapterActivityService.create(trackMode, data.chapter, newCourse._id, "Course", data.user);
+                   if (newChapterActivity.error) {
+                       return newChapterActivity;
+                   }
+                   const findChapterActivity: any = await ChapterActivityService.get(newChapterActivity._id);
+                    // return findCourse;
                    // return isValidData;
+                   return findChapterActivity;
                 } else {
                     return isValidData;
                 }

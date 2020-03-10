@@ -1,5 +1,4 @@
 import { Document, Schema, Model, model } from "mongoose";
-import UtilityScripts from "../../utils/utilityscripts";
 
 interface ICourse extends Document {
    // title: string;
