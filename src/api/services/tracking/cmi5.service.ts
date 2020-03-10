@@ -39,19 +39,19 @@ class CMI5Service extends TrackingService {
                 data.courseStructure.course.id && data.courseStructure.course.id.length > 0
                 let haveAuId = data.courseStructure.au && 
                 data.courseStructure.au.id && data.courseStructure.au.id.length > 0
-                if(!haveAuId && data.courseStructure.au.length) {
+               
+                /*if(!haveAuId && data.courseStructure.au.length) {
                     haveAuId = true;
                     for(const au of data.courseStructure.au) {
                         if(!au.id || au.id.length == 0) {
                             haveAuId = false;
                         }
                     }
-                }
+                }*/
                 if(haveCourseId && haveAuId && data.courseStructure.au.url){
                     const url = data.courseStructure.au.url;
-                    if(url['$t']){
-                        isValid = FileUtils.fileExist(rootFolder, url['$t']);
-                    }
+                    isValid = FileUtils.fileExist(rootFolder,url);
+                    
                 }
             }
         } catch(err) {
@@ -63,7 +63,7 @@ class CMI5Service extends TrackingService {
     public async create(data: any): Promise<any> {
         data.title = JSON.stringify(data.title);
         data.description = JSON.stringify(data.description);
-        data.url = JSON.stringify(data.url);
+        // data.url = JSON.stringify(data.url);
        const newAu: any = await AUModel.create(data);
        return newAu;
     }

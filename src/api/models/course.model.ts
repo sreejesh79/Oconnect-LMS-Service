@@ -16,7 +16,7 @@ const CourseSchema: Schema = new Schema({
     description: {type: Types.String, required: true},
     sco: {type: Types.ObjectId, refPath:"onModel", required : true},
     onModel: {type: Types.String, enum: ["AU", "Tincan"], required: true}
-}, { timestamps: true});
+});
 
 /* CourseSchema.pre<ICourse>("validate", function (next: any) {
     this.machine_name = UtilityScripts.machine_name(this.title);

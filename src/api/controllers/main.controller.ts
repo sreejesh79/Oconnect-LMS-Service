@@ -4,7 +4,7 @@ export class MainController {
 
     public static index = async(req: Request, res: Response, next: NextFunction) =>{
         try {
-            res.status(200).send('Welcome to OConnect Main');
+            res.status(200).send('Welcome to OConnect LMS Service!!');
           } catch (err) {
             next(err);
           }
