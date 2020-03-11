@@ -28,6 +28,16 @@ export class CourseController {
         }
     }
 
+    public static async getByChapter(req, res): Promise<any> {
+        const chapter: string = req.params.chapter;
+        const response: any = await CourseService.getByChapter(chapter);
+        if(!response.error) {
+            return res.status(200).json(response);
+        } else {
+            return res.status(500).json(response);
+        }
+    }
+
     public static async launch(req, res): Promise <any> {
         console.log(__dirname);
         console.log(`${__dirname}/sample_course`);

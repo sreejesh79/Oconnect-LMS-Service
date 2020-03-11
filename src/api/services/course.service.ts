@@ -149,6 +149,16 @@ class CourseService {
         }
     }
 
+    public async getByChapter(chapter: string): Promise<any> {
+        const query: any = {
+            chapter: chapter,
+            onModel: "Course"
+        } 
+
+        const courseByChapter: any = await ChapterActivityService.get("", query);
+        return courseByChapter;
+    }
+
 }
 
 export default CourseService.instance;

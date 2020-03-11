@@ -51,6 +51,20 @@ class ChapterActivityService {
                                                                         populate: {path: "sco"}
                                                                     }).lean();
             return chapterActivity;
+        } else if(Object.keys(query).length !== 0) {
+            const chapterActivity: any = await ChapterActivityModel.find(query)
+                                                                .populate({
+                                                                    path: "entity",
+                                                                    populate: {path: "sco"}
+                                                                }).lean();
+            return chapterActivity;
+        } else {
+            const chapterActivity: any = await ChapterActivityModel.find()
+                                                                .populate({
+                                                                    path: "entity",
+                                                                    populate: {path: "sco"}
+                                                                }).lean();
+            return chapterActivity;
         }
     }
 

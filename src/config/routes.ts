@@ -13,6 +13,7 @@ class RouterConfig {
         router.post("/api/v1/admin/course/create", CourseController.create);
         router.post("/api/v1/admin/video/create", VideoController.create);
         router.post("/api/v1/admin/file/create", FileController.create);
+        router.get("/api/v1/courses/:chapter", CourseController.getByChapter);
         }
 }
 
