@@ -1,7 +1,7 @@
-import TrackingService from "./tracking.service";
+import BaseTrackingService from "./basetracking.service";
 import FileUtils from "../../../utils/fileutils";
 
-class XAPIService extends TrackingService{
+class XAPIService extends BaseTrackingService{
 
     private static _singleton: boolean = true;
     private static _instance: XAPIService;

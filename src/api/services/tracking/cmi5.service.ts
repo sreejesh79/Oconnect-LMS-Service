@@ -1,8 +1,8 @@
 import FileUtils from "../../../utils/fileutils";
-import TrackingService from "./tracking.service";
+import BaseTrackingService from "./basetracking.service";
 import AUModel from "../../models/au.model";
 
-class CMI5Service extends TrackingService {
+class CMI5Service extends BaseTrackingService {
     private static _singleton: boolean = true;
     private static _instance: CMI5Service;
 

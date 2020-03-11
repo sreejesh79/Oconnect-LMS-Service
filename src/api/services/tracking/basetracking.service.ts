@@ -2,7 +2,7 @@ import fs from "fs";
 // import parser from "xml2json";
 import parser from "fast-xml-parser";
 
-class TrackingService {
+class BaseTrackingService {
 
     public isExists(rootFolder: String): Boolean {
         return false;
@@ -45,4 +45,4 @@ class TrackingService {
    
 }
 
-export default TrackingService;
+export default BaseTrackingService;

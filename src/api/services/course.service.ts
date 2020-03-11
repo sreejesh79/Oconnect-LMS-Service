@@ -158,6 +158,10 @@ class CourseService {
         const courseByChapter: any = await ChapterActivityService.get("", query);
         return courseByChapter;
     }
+    
+    public async enrollMembersForChapter():Promise<any>{
+
+    }
 
 }
 

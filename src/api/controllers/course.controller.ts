@@ -1,6 +1,6 @@
 import path from "path";
 import CourseService from "../services/course.service";
-
+import ChapterActivityService from "../services/chapteractivity.service";
 
 export class CourseController {
 
