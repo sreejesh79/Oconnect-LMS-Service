@@ -12,7 +12,7 @@ const VideoSchema: Schema = new Schema({
    description: {type: Types.String},
    videoUrl: {type: Types.ObjectId, ref:"File",  required: true},
    thumbnail: {type: Types.ObjectId, ref: "File", required: true}
-});
+}, {timestamps: true});
 
 
 const VideoModel: Model<IVideoModel> = model<IVideoModel>("Video", VideoSchema);
