@@ -63,6 +63,7 @@ class CMI5Service extends BaseTrackingService {
     public async create(data: any): Promise<any> {
         data.title = JSON.stringify(data.title);
         data.description = JSON.stringify(data.description);
+        console.log(data);
         // data.url = JSON.stringify(data.url);
        const newAu: any = await AUModel.create(data);
        return newAu;

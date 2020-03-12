@@ -27,10 +27,12 @@ class ActivityService {
         return this._instance;
     }
 
-    public async create(data: any, trackMode: string):Promise<any> {
+    public async create(data: any, trackMode: string, activity_path: string):Promise<any> {
         switch (trackMode) {
             case ActivityService.TRACK_MODE_CMI5 :
-                const newCMI5: any = await CMI5Service.create(data.courseStructure.au);
+                const auData = data.courseStructure.au;
+                auData.launch_url = `${activity_path}/${auData.url}`;
+                const newCMI5: any = await CMI5Service.create(auData);
                 return newCMI5;
             break;
         

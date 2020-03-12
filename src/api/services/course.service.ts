@@ -10,6 +10,8 @@ import ActivityService from "./activity.service";
 import { LMSConstants, CourseConstants } from "config/constants";
 import CourseModel from "models/course.model";
 import ChapterActivityService from "./chapteractivity.service";
+import CourseEnrollService from "./courseenroll.service";
+import UtilityScripts from "../../utils/utilityscripts";
 
 class CourseService {
     private static _singleton: boolean = true;
@@ -85,9 +87,9 @@ class CourseService {
             if(!fileExtract.error) {
                 const trackMode: string = ActivityService.instance.getTrackModeFromPackage(fileExtract.activity_path);
                 const isValidData : any = ActivityService.instance.verifyPackage(fileExtract.activity_path, trackMode);
-                console.log("isValidData", isValidData);
+                console.log("fileExtract", fileExtract);
                 if (isValidData && !isValidData.error) {
-                    const newActivity: any = await ActivityService.instance.create(isValidData, trackMode);
+                    const newActivity: any = await ActivityService.instance.create(isValidData, trackMode, fileExtract.activity_name);
                     const newCourse: any = await this.createCourse(trackMode, isValidData, newActivity);
                    // const findCourse: any = await CourseModel.findById(newCourse._id).populate("sco");
                    const newChapterActivity: any = await ChapterActivityService.create(trackMode, data.chapter, newCourse._id, "Course", data.user);
@@ -159,7 +161,49 @@ class CourseService {
         return courseByChapter;
     }
     
-    public async enrollMembersForChapter():Promise<any>{
+    public async getLaunchURL(enroll_id: string): Promise<any> {
+        try {
+            const enrollData: any = await CourseEnrollService.getEnrollMent(enroll_id);
+            if (!enrollData.error && enrollData._id) {
+                const endpoint: string  = LMSConstants.LMS_END_POINT;
+            const fetchUrl: string =  LMSConstants.FETCH_URL;
+            const actor: any =  {
+                "objectType": "Agent", 
+                "account": {
+                        "homePage": LMSConstants.LMS_HOST_URL,
+                        "name": enrollData.member
+                    }
+                };
+            const actorSerialized: any = UtilityScripts.serializeObject(actor);
+            const registration: string = enrollData.registration;
+            const activityId: string = enrollData.course.sco.id;
+            const launch_url = enrollData.course.sco.launch_url;
+            const launchParams: any = {
+                launch_url: launch_url,
+                endpoint: encodeURIComponent(endpoint),
+                fetch : encodeURIComponent(fetchUrl),
+                actor : encodeURIComponent(JSON.stringify(actor)),
+                registration : registration,
+                activityId : encodeURIComponent(activityId)
+                }
+
+                console.log(launchParams);
+            // const launchURLWithParams: string = `${LMSConstants.LMS_COURSE_PATH}/${launch_url}?endpoint=${encodeURIComponent(endpoint)}&fetch=${encodeURIComponent(fetchUrl)}&actor=${encodeURIComponent(JSON.stringify(actor))}&registration=${registration}&activityId=${encodeURIComponent(activityId)}`;
+           return launchParams;
+           
+    
+        } else {
+                return enrollData;
+            }
+            
+        } catch (e) {
+            return {
+                error: true,
+                message: e.message
+            }
+        }
+        
+        
 
     }
 

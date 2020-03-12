@@ -15,7 +15,9 @@ const CourseSchema: Schema = new Schema({
     // machine_name: {type: Types.String, required: true, unique: true, index: true},
     description: {type: Types.String, required: true},
     sco: {type: Types.ObjectId, refPath:"onModel", required : true},
-    onModel: {type: Types.String, enum: ["AU", "Tincan"], required: true}
+    onModel: {type: Types.String, enum: ["AU", "Tincan"], required: true},
+    startdate: {type: Types.Number},
+    enddate: {type: Types.Number}
 });
 
 /* CourseSchema.pre<ICourse>("validate", function (next: any) {

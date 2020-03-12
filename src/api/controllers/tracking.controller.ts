@@ -1,4 +1,3 @@
-import ChapterActivityService from "../services/chapteractivity.service";
 import TrackingService from "../services/tracking.service";
 
 export class TrackingController {
@@ -20,5 +19,5 @@ export class TrackingController {
             return res.status(500).json(response);
         }
     }
-}
+
 

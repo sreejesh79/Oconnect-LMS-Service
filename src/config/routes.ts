@@ -8,15 +8,18 @@ import { TrackingController } from "controllers/tracking.controller";
 class RouterConfig {
 
     public static routes(router: any): any {
-        router.get("/", MainController.index);
+      //  router.get("/", MainController.index);
         router.get("/api/users", UserController.getUser);
         router.post("/api/v1/admin/course/upload", CourseController.uploadPackage);
         router.post("/api/v1/admin/course/create", CourseController.create);
+        router.post("/api/v1/admin/course/enroll",CourseController.enrollMember);
         router.post("/api/v1/admin/video/create", VideoController.create);
         router.post("/api/v1/admin/file/create", FileController.create);
         router.get("/api/v1/courses/:chapter", CourseController.getByChapter);
         router.post("/api/v1/tracking", TrackingController.create);
         router.get("/api/v1/tracking/:entity/member/:member_id/chapter/:chapter_id", TrackingController.getForMemberAndChapter);
+        router.get("/launch/:enrollId", CourseController.launch);
+       // router.get("/api/v1/fetch")
         }
 }
 

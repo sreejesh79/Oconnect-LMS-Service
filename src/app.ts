@@ -11,6 +11,7 @@ import Responses from './api/responses/index';
 import RouterConfig from 'config/routes';
 import Validate from 'middlewares/validate';
 import Middleware from './config/middleware';
+import ejs from "ejs";
 
 
 class App {
@@ -28,7 +29,9 @@ class App {
 
     private config(app): void {
 
+        
         Responses.init()
+
         // middlewares
         app.use(helmet())
         // support application/json type post data
@@ -48,11 +51,15 @@ class App {
             return express.static(course_path);
         })*/
         const course_path = path.join(__dirname, '../courses');
+        console.log(course_path);
         app.use('/course/*', (req, res, next) => {
-            console.log("am here2");
+            //console.log("am here2");
             next();
         })
-        app.use('/course', express.static(course_path));
+        app.use("/course/",express.static(course_path));
+
+        app.set('views', path.join(__dirname, '../views'));
+        app.set('view engine','ejs');
         this.configRoutes(app);
         // error handling
         this.initErrorHandling(app);

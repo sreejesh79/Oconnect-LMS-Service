@@ -17,7 +17,8 @@ const AUSchema: Schema = new Schema({
     masteryScore: {type: Types.Number, default: 0},
     launchMethod: {type: Types.String},
     moveOn: {type: Types.String},
-    url: {type: Types.String}
+    url: {type: Types.String},
+    launch_url: {type: Types.String, required: true},
 
 }, { timestamps: true});
 

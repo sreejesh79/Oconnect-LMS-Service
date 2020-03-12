@@ -1,6 +1,6 @@
 import path from "path";
 import CourseService from "../services/course.service";
-import ChapterActivityService from "../services/chapteractivity.service";
+import CourseEnrollService from "../services/courseenroll.service";
 
 export class CourseController {
 
@@ -37,12 +37,37 @@ export class CourseController {
             return res.status(500).json(response);
         }
     }
+    public static async enrollForChapter(req, res): Promise<any> {
+        const response: any = await CourseEnrollService.enrollMembersToCourse(req.body.chapter, req.body.course);
+        if ( !response.error ) {
+            return res.status(200).json(response);
+        } else {
+            return res.status(500).json(response);
+        }
+    }
+
+    public static async enrollMember(req, res): Promise<any> {
+        const response: any = await CourseEnrollService.enrollMember(req.body);
+        if ( !response.error ) {
+            return res.status(200).json(response);
+        } else {
+            return res.status(500).json(response);
+        }
+    }
 
     public static async launch(req, res): Promise <any> {
-        console.log(__dirname);
-        console.log(`${__dirname}/sample_course`);
-        const _root = path.join(__dirname, 'sample_course');
-        const rootIndex = path.join(__dirname,'sample_course/index.html' );
-       // res.sendFile(req.params.course_name, {root: _root, headers: {'x-sent': true}});
+       
+     const response: any = await CourseService.getLaunchURL(req.params.enrollId);
+      if (!response.error ) {
+        try {
+            return  res.render("launch",response);
+        } catch (e) {
+           res.status(500).json(e.message);
+        }
+      
+        
+      } else {
+        return res.status(500).json(response);
+      }
     }
 }
