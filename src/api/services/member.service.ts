@@ -34,6 +34,12 @@ class MemberService {
         }
        
     }
+
+    
+
+    
+
+
 }
 
 export default MemberService.instance;

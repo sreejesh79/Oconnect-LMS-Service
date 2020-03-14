@@ -41,7 +41,7 @@ class ActivityService {
 
     public  getTrackModeFromPackage(packageFolder): string {
         let trackMode: string = "none";
-        if (CMI5Service.isExists) {
+        if (CMI5Service.isExists(packageFolder)) {
             trackMode = ActivityService.TRACK_MODE_CMI5;
         } else {
             trackMode = ActivityService.TRACK_MODE_XAPI;

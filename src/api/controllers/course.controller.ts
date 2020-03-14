@@ -24,7 +24,7 @@ export class CourseController {
                 error: true,
                 message: e.message
             }
-           return res.status(501).json(errorData);
+           return res.status(500).json(errorData);
         }
     }
 

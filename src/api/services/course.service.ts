@@ -84,8 +84,10 @@ class CourseService {
            let courseData: any = {};
             const zipPath: string = path.join(CourseConstants.COURSE_PACKAGE_FOLDER_PATH, data.filename);
             const fileExtract: any = await this.extractFileToFolder(zipPath);
+            console.log("fileExtract", fileExtract);
             if(!fileExtract.error) {
                 const trackMode: string = ActivityService.instance.getTrackModeFromPackage(fileExtract.activity_path);
+                console.log("trackMode", trackMode);
                 const isValidData : any = ActivityService.instance.verifyPackage(fileExtract.activity_path, trackMode);
                 console.log("fileExtract", fileExtract);
                 if (isValidData && !isValidData.error) {
