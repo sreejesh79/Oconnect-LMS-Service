@@ -15,7 +15,8 @@ const CourseEnrollSchema: Schema = new Schema({
     member: {type: Types.ObjectId, ref: "Member", required: true},
     course: {type: Types.ObjectId, ref: "Course", required: true},
     chapter: {type: Types.ObjectId, ref: "Chapter", required: true},
-    status: {type: Types.String, enum:['active', 'inactive', 'expired'], required: true, default: 'active'}
+    status: {type: Types.String, enum:['active', 'inactive', 'expired'], required: true, default: 'active'},
+    tracking: {type: Types.String, enum: ['na', 'i', 'c'], default: 'na'}
 });
 
 CourseEnrollSchema.pre<ICourseEnroll>("validate", function (next: any) {

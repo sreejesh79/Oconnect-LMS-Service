@@ -89,6 +89,18 @@ class CourseEnrollService {
             }
         }
     }
+
+    public async updateTracking(enroll_id: string): Promise<any> {
+        try {
+            const tracking: any = await CourseEnrollModel.findByIdAndUpdate(enroll_id, {tracking: 'i'});
+            return tracking;
+        } catch {
+            return {
+                error: true,
+                message: e.message
+            }
+        }
+    }
 }
 
 export default CourseEnrollService.instance;

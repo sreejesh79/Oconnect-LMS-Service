@@ -69,14 +69,17 @@ export class CourseController {
        
      const response: any = await CourseService.getLaunchURL(req.params.enrollId);
       if (!response.error ) {
-        try {
-            return  res.render("launch",response);
-        } catch (e) {
-           res.status(500).json(e.message);
-        }
-      
-        
-      } else {
+          const updateTracking: any = await CourseEnrollService.updateTracking(req.params.enrollId);
+          if (!updateTracking.error ) {
+            try {
+                return  res.render("launch",response);
+            } catch (e) {
+               res.status(500).json(e.message);
+            }
+          } else {
+            return res.status(500).json(updateTracking);
+          }
+        } else {
         return res.status(500).json(response);
       }
     }
