@@ -24,6 +24,7 @@ class CourseEnrollService {
     public async enrollMembersToCourse(chapter_id: string, course_id: string):Promise<any> {
         try {
             const chapterData: any = await ChapterModel.findById(chapter_id, "members").lean();
+            console.log("chapterData",chapterData);
             const members: Array<any> = chapterData.members;
             if (members.length > 0){
                const enrollData: Array<any> = [];
@@ -36,9 +37,16 @@ class CourseEnrollService {
                     enrollData.push(tempObj);
                 }
                const enrolls: any = await CourseEnrollModel.insertMany(enrollData);
+               console.log(enrolls);
                return enrolls;
+            } else {
+                return {
+                    error: true,
+                    message: "members not found"
+                } 
             }
         } catch (e) {
+            console.log(e);
             return {
                 error: true,
                 message: e.message
@@ -68,6 +76,18 @@ class CourseEnrollService {
                                                     })
                                                     .lean();
         return enroll;
+    }
+
+    public async getAllEnrollmentForMember(member_id, chapter_id): Promise<any> {
+        try {
+            const enrolls: any = await CourseEnrollModel.find({member: member_id, chapter: chapter_id}).lean();
+            return enrolls;
+        } catch(e) {
+            return {
+                error: true,
+                message: e.message
+            }
+        }
     }
 }
 

@@ -39,6 +39,7 @@ export class CourseController {
     }
     public static async enrollForChapter(req, res): Promise<any> {
         const response: any = await CourseEnrollService.enrollMembersToCourse(req.body.chapter, req.body.course);
+        console.log(response);
         if ( !response.error ) {
             return res.status(200).json(response);
         } else {
@@ -48,6 +49,15 @@ export class CourseController {
 
     public static async enrollMember(req, res): Promise<any> {
         const response: any = await CourseEnrollService.enrollMember(req.body);
+        if ( !response.error ) {
+            return res.status(200).json(response);
+        } else {
+            return res.status(500).json(response);
+        }
+    }
+
+    public static async getEnrollmentsForMember(req, res): Promise<any> {
+        const response: any = await CourseEnrollService.getAllEnrollmentForMember(req.params.member_id, req.params.chapter_id);
         if ( !response.error ) {
             return res.status(200).json(response);
         } else {
