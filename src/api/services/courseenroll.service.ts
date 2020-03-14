@@ -94,7 +94,7 @@ class CourseEnrollService {
         try {
             const tracking: any = await CourseEnrollModel.findByIdAndUpdate(enroll_id, {tracking: 'i'});
             return tracking;
-        } catch {
+        } catch (e) {
             return {
                 error: true,
                 message: e.message
