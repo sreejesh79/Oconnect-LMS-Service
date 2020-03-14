@@ -167,6 +167,7 @@ class CourseService {
             if (!enrollData.error && enrollData._id) {
                 const endpoint: string  = LMSConstants.LMS_END_POINT;
             const fetchUrl: string =  LMSConstants.FETCH_URL;
+            console.log(fetchUrl);
             const actor: any =  {
                 "objectType": "Agent", 
                 "account": {
@@ -184,7 +185,8 @@ class CourseService {
                 fetch : encodeURIComponent(fetchUrl),
                 actor : encodeURIComponent(JSON.stringify(actor)),
                 registration : registration,
-                activityId : encodeURIComponent(activityId)
+                activityId : encodeURIComponent(activityId),
+                auth: "Basic NmQxMDA3ZWQxMjBjNDcxYTkxNTlkZDc5ZjBmZDU5NTk4NzQ3ZmZkNjo2ZDE5Y2E1MWFmOGFlYjU3NTcwZWVjMjk3MWNjMjYwNDNjOWMyMmQx"
                 }
 
                 console.log(launchParams);
