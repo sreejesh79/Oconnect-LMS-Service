@@ -166,6 +166,7 @@ class CourseService {
     public async getLaunchURL(enroll_id: string): Promise<any> {
         try {
             const enrollData: any = await CourseEnrollService.getEnrollMent(enroll_id);
+            console.log("enrollData",enrollData);
             if (!enrollData.error && enrollData._id) {
                 const endpoint: string  = LMSConstants.LMS_END_POINT;
             const fetchUrl: string =  LMSConstants.FETCH_URL;
@@ -179,7 +180,12 @@ class CourseService {
                 };
             const actorSerialized: any = UtilityScripts.serializeObject(actor);
             const registration: string = enrollData.registration;
+            if (!enrollData.course) {
+                const courseData: any = CourseModel.findOne({sort: { 'created_at' : 1}}).populate("sco");
+                enrollData.course = courseData;
+            }
             const activityId: string = enrollData.course.sco.id;
+
             const launch_url = enrollData.course.sco.launch_url;
             const launchParams: any = {
                 launch_url: launch_url,

@@ -1,5 +1,6 @@
 import ChapterModel from "models/chapter.model";
 import CourseEnrollModel from "models/courseenroll.model";
+import AUModel from "models/au.model";
 
 class CourseEnrollService {
 
@@ -72,7 +73,7 @@ class CourseEnrollService {
         const enroll: any = await CourseEnrollModel.findById(enroll_id)
                                                     .populate({
                                                         path: "course",
-                                                        populate: "sco"
+                                                        populate: {path: "sco", model: AUModel}
                                                     })
                                                     .lean();
         return enroll;
