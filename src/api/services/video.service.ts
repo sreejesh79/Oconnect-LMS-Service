@@ -21,11 +21,11 @@ class VideoService {
     }
 
     public async getAllVideos(): Promise<any> {
-        return await VideoModel.find({}).lean();
+        return await VideoModel.find({}).populate(["videoUrl", "thumbnail"]).lean();
     }
 
     public async getRecentVideos(): Promise<any> {
-        return await VideoModel.find().sort({createdAt: -1}).limit(5).lean()
+        return await VideoModel.find().sort({createdAt: -1}).limit(5).populate(["videoUrl", "thumbnail"]).lean()
     }
 
     public async create(data: any): Promise<any> {
