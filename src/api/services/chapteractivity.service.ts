@@ -21,16 +21,16 @@ class ChapterActivityService {
         return this._instance;
     }
 
-    public async create(trackMode: string, chapter: string, entity: string, onModel: string, user: string): Promise<any> {
+    public async create(trackMode: string, chapters: Array<string>, entity: string, onModel: string, user: string): Promise<any> {
        try {
-        const newChapterActivity: any = await ChapterActivityModel.create({
+           const manyData: Array<any> = this._convertToMany({
             trackmode: trackMode,
-            chapter: chapter,
+            chapters: chapters,
             entity: entity,
             onModel: onModel,
             createdBy: user
-        });
-
+        })
+        const newChapterActivity: any = await ChapterActivityModel.create(manyData);
         return newChapterActivity;
 
        } catch (e) {
@@ -43,6 +43,23 @@ class ChapterActivityService {
         
     }
 
+    private _convertToMany(data: any): Array<any> {
+        const chapters: Array<string> = data.chapters;
+        let retData: Array<any> = [];
+        try {
+            for (let chap of chapters) {
+                let tempObj: any = {};
+                Object.assign(tempObj, data);
+                delete tempObj.chapters;
+                tempObj.chapter = chap;
+                retData.push(tempObj);
+            }
+        } catch(e) {
+            console.log(e);
+            return [];
+        }
+        return retData
+    }
     public async get(id: string = "", query: any = {}): Promise<any> {
         if (id != "") {
             const chapterActivity: any = await ChapterActivityModel.findById(id)

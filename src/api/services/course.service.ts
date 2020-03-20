@@ -94,7 +94,7 @@ class CourseService {
                     const newActivity: any = await ActivityService.instance.create(isValidData, trackMode, fileExtract.activity_name);
                     const newCourse: any = await this.createCourse(trackMode, isValidData, newActivity);
                    // const findCourse: any = await CourseModel.findById(newCourse._id).populate("sco");
-                   const newChapterActivity: any = await ChapterActivityService.create(trackMode, data.chapter, newCourse._id, "Course", data.user);
+                   const newChapterActivity: any = await ChapterActivityService.create(trackMode, data.chapters, newCourse._id, "Course", data.user);
                    if (newChapterActivity.error) {
                        return newChapterActivity;
                    }
