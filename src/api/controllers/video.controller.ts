@@ -9,4 +9,22 @@ export class VideoController {
             return res.status(200).json(response);
         }
     }
+
+    public static async getVideos(req, res) : Promise<any> {
+        const response: any = await VideoService.getAllVideos();
+        if (response.error) {
+            return res.status(500).json(response);
+        } else {
+            return res.status(200).json(response);
+        }
+    }
+
+    public static async getRecentVideos(req, res) : Promise<any> {
+        const response: any = await VideoService.getRecentVideos();
+        if (response.error) {
+            return res.status(500).json(response);
+        } else {
+            return res.status(200).json(response);
+        }
+    }
 }

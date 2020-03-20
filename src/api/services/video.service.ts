@@ -20,6 +20,14 @@ class VideoService {
         return this._instance;
     }
 
+    public async getAllVideos(): Promise<any> {
+        return await VideoModel.find({}).lean();
+    }
+
+    public async getRecentVideos(): Promise<any> {
+        return await VideoModel.find().sort({createdAt: -1}).limit(5).lean()
+    }
+
     public async create(data: any): Promise<any> {
         const videoFile: any = await FileService.create({
             url: data.videoUrl,
