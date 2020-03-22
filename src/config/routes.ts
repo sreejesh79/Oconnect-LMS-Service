@@ -25,6 +25,8 @@ class RouterConfig {
         router.get("/fetch", LRSBridgeController.fetch);
         router.all("/api/v1/lrs/*", LRSBridgeController.proxy);
        // router.get("/api/v1/fetch")
+        router.get("/api/v1/get/videos", VideoController.getVideos);
+        router.get("/api/v1/get/recent/videos", VideoController.getRecentVideos)
         }
 }
 
