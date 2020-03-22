@@ -68,7 +68,7 @@ class CourseEnrollService {
                     member: memb.member,
                 }
 
-                retArray.push(memb);
+                retArray.push(tempObj);
             }
         } catch (e) {
             console.log(e);
