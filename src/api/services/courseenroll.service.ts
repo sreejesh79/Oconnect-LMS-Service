@@ -22,22 +22,15 @@ class CourseEnrollService {
         return this._instance;
     }
 
-    public async enrollMembersToCourse(chapter_id: string, course_id: string):Promise<any> {
+    public async enrollMembersToCourse(data: any):Promise<any> {
         try {
-            const chapterData: any = await ChapterModel.findById(chapter_id, "members").lean();
-            console.log("chapterData",chapterData);
-            const members: Array<any> = chapterData.members;
+           // const chapterData: any = await ChapterModel.findById(chapter_id, "members").lean();
+           // console.log("chapterData",chapterData);
+            const members: Array<any> = data.members;
             if (members.length > 0){
-               const enrollData: Array<any> = [];
-                for (let memb of members) {
-                    const tempObj: any = {
-                        member: memb,
-                        course: course_id,
-                        chapter: chapter_id
-                    }
-                    enrollData.push(tempObj);
-                }
-               const enrolls: any = await CourseEnrollModel.insertMany(enrollData);
+               const enrollData: Array<any> = this.prepareDataForEnroll(data)
+                
+               const enrolls: any = await CourseEnrollModel.create(enrollData);
                console.log(enrolls);
                return enrolls;
             } else {
@@ -54,8 +47,35 @@ class CourseEnrollService {
             }
         }
 
-    }
+        try {
 
+        } catch(e) {
+
+        }
+
+    }
+    
+     private  prepareDataForEnroll(data): Array<any> {
+        const retArray: Array<any> = [];
+        const chapter: string = data.chapter;
+        const course: string = data.course;
+        const members: Array<any> = data.members;
+        try {
+            for( let memb of members ) {
+                const tempObj: any = {
+                    chapter: memb.chapter,
+                    course: course,
+                    member: memb.member,
+                }
+
+                retArray.push(memb);
+            }
+        } catch (e) {
+            console.log(e);
+            return [];
+        }
+        return retArray;
+    }
     public async enrollMember(data: any): Promise<any> {
         try {
             const enroll: any = await CourseEnrollModel.create(data);

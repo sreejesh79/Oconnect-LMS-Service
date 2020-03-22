@@ -38,7 +38,7 @@ export class CourseController {
         }
     }
     public static async enrollForChapter(req, res): Promise<any> {
-        const response: any = await CourseEnrollService.enrollMembersToCourse(req.body.chapter, req.body.course);
+        const response: any = await CourseEnrollService.enrollMembersToCourse(req.body);
         console.log(response);
         if ( !response.error ) {
             return res.status(200).json(response);
