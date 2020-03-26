@@ -10,4 +10,13 @@ export class DocumentController {
             return res.status(500).json(response);
         }
     }
+
+    public static async getByChapter(req: any, res: any): Promise<any> {
+        const response: any = await DocumentService.getByChapter(req.params.chapterid);
+        if (!response.error) {
+            return res.status(200).json(response);
+        } else {
+            return res.status(500).json(response);
+        }
+    }
 }

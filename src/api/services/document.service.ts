@@ -22,7 +22,7 @@ class DocumentService {
         return this._instance;
     }
 
-    public async create(data: any): Promise<any> {
+    public async create(data: any): Promise<any> {  
         const fileObj: any = {
             filename: data.name ? data.name : '',
             mimetype: data.mimeType ? data.mimeType : '',
@@ -53,10 +53,14 @@ class DocumentService {
         }
     }
 
-    private documentTypeMapper(type: string): string {
-        let retStr: string = '';
+    public async getByChapter(chapter: string): Promise<any> {
+        const query: any = {
+            chapter: chapter,
+            onModel: "Document"
+        } 
 
-        return retStr;
+        const courseByChapter: any = await ChapterActivityService.get("", query,{path: 'file'});
+        return courseByChapter;
     }
 
 }

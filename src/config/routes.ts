@@ -29,6 +29,7 @@ class RouterConfig {
         router.get("/api/v1/get/videos", VideoController.getVideos);
         router.get("/api/v1/get/recent/videos", VideoController.getRecentVideos);
         router.post("/api/v1/document/create", DocumentController.create);
+        router.get("/api/v1/document/chapter/:chapterid", DocumentController.getByChapter);
         }
 }
 
