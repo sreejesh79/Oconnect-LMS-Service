@@ -98,7 +98,7 @@ class CourseService {
                    if (newChapterActivity.error) {
                        return newChapterActivity;
                    }
-                   const findChapterActivity: any = await ChapterActivityService.get(newChapterActivity._id);
+                   const findChapterActivity: any = await ChapterActivityService.get(newChapterActivity._id, {}, {path:'sco'});
                     // return findCourse;
                    // return isValidData;
                    return findChapterActivity;
@@ -159,7 +159,7 @@ class CourseService {
             onModel: "Course"
         } 
 
-        const courseByChapter: any = await ChapterActivityService.get("", query);
+        const courseByChapter: any = await ChapterActivityService.get("", query,{path: 'sco'});
         return courseByChapter;
     }
     

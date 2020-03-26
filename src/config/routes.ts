@@ -5,6 +5,7 @@ import { CourseController } from "controllers/course.controller";
 import { VideoController } from "controllers/video.controller";
 import { TrackingController } from "controllers/tracking.controller";
 import { LRSBridgeController } from "controllers/lrsbridge.controller";
+import { DocumentController } from "controllers/document.controller";
 
 class RouterConfig {
 
@@ -26,7 +27,8 @@ class RouterConfig {
         router.all("/api/v1/lrs/*", LRSBridgeController.proxy);
        // router.get("/api/v1/fetch")
         router.get("/api/v1/get/videos", VideoController.getVideos);
-        router.get("/api/v1/get/recent/videos", VideoController.getRecentVideos)
+        router.get("/api/v1/get/recent/videos", VideoController.getRecentVideos);
+        router.post("/api/v1/document/create", DocumentController.create);
         }
 }
 

@@ -19,21 +19,24 @@ FileSchema.pre("validate", function(next) {
     const _self: any = this;
     const url = _self.url;
     const splitUrl = url.split("/");
+    if (!_self.filename && _self.filename != '') {
+    
     const fileName = splitUrl[splitUrl.length - 1];
     _self.filename = fileName.substring(0, fileName.lastIndexOf("."));
-    _self.mimetype = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length)
+    _self.mimetype = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length);
+    }
     console.log("data", _self.url, _self.filename, _self.mimetype);
     next();
 })
 
 FileSchema.pre("findOneAndUpdate", function(next) {
-    const _self = this.getUpdate();
+   /* const _self = this.getUpdate();
     const url = _self.url;
     const splitUrl = url.split("/");
     const fileName = splitUrl[splitUrl.length - 1];
     _self.filename = fileName.substring(0, fileName.lastIndexOf("."));
     _self.mimetype = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length)
-    console.log("data", _self.url, _self.filename, _self.mimetype);
+    console.log("data", _self.url, _self.filename, _self.mimetype); */
     next();
 })
 

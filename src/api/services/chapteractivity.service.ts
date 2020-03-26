@@ -60,26 +60,26 @@ class ChapterActivityService {
         }
         return retData
     }
-    public async get(id: string = "", query: any = {}): Promise<any> {
+    public async get(id: string = "", query: any = {}, deepPopulate: any = {}): Promise<any> {
         if (id != "") {
             const chapterActivity: any = await ChapterActivityModel.findById(id)
                                                                     .populate({
                                                                         path: "entity",
-                                                                        populate: {path: "sco"}
+                                                                        populate: deepPopulate
                                                                     }).lean();
             return chapterActivity;
         } else if(Object.keys(query).length !== 0) {
             const chapterActivity: any = await ChapterActivityModel.find(query)
                                                                 .populate({
                                                                     path: "entity",
-                                                                    populate: {path: "sco"}
+                                                                    populate: deepPopulate
                                                                 }).lean();
             return chapterActivity;
         } else {
             const chapterActivity: any = await ChapterActivityModel.find()
                                                                 .populate({
                                                                     path: "entity",
-                                                                    populate: {path: "sco"}
+                                                                    populate: deepPopulate
                                                                 }).lean();
             return chapterActivity;
         }
