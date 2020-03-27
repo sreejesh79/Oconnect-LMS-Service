@@ -27,4 +27,23 @@ export class VideoController {
             return res.status(200).json(response);
         }
     }
+
+
+    public static async getByChapter(req, res): Promise<any> {
+        const response: any = await VideoService.getByChapter(req.params.chapter);
+        if (response.error) {
+            return res.status(500).json(response);
+        } else {
+            return res.status(200).json(response);
+        }
+    }
+
+    public static async createByChapter(req, res): Promise<any> {
+        const response: any = await VideoService.createByChapter(req.body);
+        if (response.error) {
+            return res.status(500).json(response);
+        } else {
+            return res.status(200).json(response);
+        }
+    }
 }

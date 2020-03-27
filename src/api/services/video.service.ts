@@ -1,5 +1,6 @@
 import FileService from "../services/file.service";
 import VideoModel from "../models/video.model";
+import ChapterActivityService from "./chapteractivity.service";
 
 class VideoService {
     private static _singleton: boolean = true;
@@ -46,7 +47,8 @@ class VideoService {
                         videoUrl: videoFile._id,
                         thumbnail: thumbnail._id
                     })
-                    return newVideo;
+                   return newVideo;
+
                 } catch (e) {
                     return {
                         error: true,
@@ -61,6 +63,30 @@ class VideoService {
             return videoFile;
         }
         
+    }
+
+    public async createByChapter(data: any): Promise<any> {
+        const newVideo: any = await this.create(data);
+        if (!newVideo.error) {
+            const chapterActiivity: any = await ChapterActivityService.create("none", data.chapters, newVideo._id, "Video", data.user);
+            if (chapterActiivity.error) {
+                return chapterActiivity;
+            } else {
+                return newVideo;
+            }
+        } else {
+            return newVideo;
+        }
+    }
+
+    public async getByChapter(chapter: string): Promise<any> {
+        const query: any = {
+            chapter: chapter,
+            onModel: "Video"
+        } 
+
+        const courseByChapter: any = await ChapterActivityService.get("", query,{path: 'file'});
+        return courseByChapter;
     }
 }
 
