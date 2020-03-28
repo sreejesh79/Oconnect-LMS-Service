@@ -35,29 +35,20 @@ class VideoService {
             createdBy: data.user
         });
         if ( !videoFile.error ) {
-            const thumbnail: any = await FileService.create({
-                url: data.thumbnail,
-                createdBy: data.user
-            })
-            if ( !thumbnail.error ) {
-                try {
-                    const newVideo: any = await VideoModel.create({
-                        title: data.title,
-                        description: data.description,
-                        videoUrl: videoFile._id,
-                        thumbnail: thumbnail._id
-                    })
-                   return newVideo;
+            try {
+                const newVideo: any = await VideoModel.create({
+                    title: data.title,
+                    description: data.description,
+                    videoUrl: videoFile._id,
+                    thumbnail: data.thumbnail
+                })
+               return newVideo;
 
-                } catch (e) {
-                    return {
-                        error: true,
-                        message: e.message
-                    }
+            } catch (e) {
+                return {
+                    error: true,
+                    message: e.message
                 }
-                
-            } else {
-                return thumbnail;
             }
         } else {
             return videoFile;
@@ -86,7 +77,7 @@ class VideoService {
         } 
 
         const courseByChapter: any = await ChapterActivityService.get("", query,{path: 'file'});
-        return courseByChapter;
+       return courseByChapter;
     }
 }
 

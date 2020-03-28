@@ -11,7 +11,7 @@ const VideoSchema: Schema = new Schema({
    title: {type: Types.String, required: true},
    description: {type: Types.String},
    videoUrl: {type: Types.ObjectId, ref:"File",  required: true},
-   thumbnail: {type: Types.ObjectId, ref: "File", required: true}
+   thumbnail: {type: Types.String, required: true}
 }, {timestamps: true});
 
 
