@@ -31,7 +31,7 @@ class RouterConfig {
         router.post("/api/v1/document/create", DocumentController.create);
         router.get("/api/v1/document/chapter/:chapterid", DocumentController.getByChapter);
        router.post("/api/v1/video/chapters/", VideoController.createByChapter);
-       router.get("/api/v1/video/chapter/:chapterid", VideoController.createByChapter);
+       router.get("/api/v1/video/chapter/:chapterid", VideoController.getByChapter);
         }
 }
 
