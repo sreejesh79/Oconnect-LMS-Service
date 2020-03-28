@@ -19,6 +19,7 @@ class RouterConfig {
         router.post("/api/v1/admin/video/create", VideoController.create);
         router.post("/api/v1/admin/file/create", FileController.create);
         router.get("/api/v1/courses/:chapter?", CourseController.getByChapter);
+       router.get("/api/v1/admin/courses", CourseController.getCoursesForAdmin);
         router.get("/api/v1/courses/enroll/member/:member_id/chapter/:chapter_id", CourseController.getEnrollmentsForMember);
         router.post("/api/v1/tracking", TrackingController.create);
         router.get("/api/v1/tracking/:entity/member/:member_id/chapter/:chapter_id", TrackingController.getForMemberAndChapter);

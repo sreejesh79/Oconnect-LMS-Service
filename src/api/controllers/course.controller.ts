@@ -83,4 +83,13 @@ export class CourseController {
         return res.status(500).json(response);
       }
     }
+
+    public static async getCoursesForAdmin(req, res): Promise<any> {
+        const response: any = await CourseService.getCoursesForAdmin();
+        if ( !response.error ) {
+            return res.status(200).json(response);
+        } else {
+            return res.status(500).json(response);
+        }
+    }
 }

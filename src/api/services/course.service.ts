@@ -225,6 +225,11 @@ class CourseService {
 
     }
 
+    public async getCoursesForAdmin(): Promise<any> {
+        const courses: any = await CourseModel.find().lean();
+        return courses;
+    }
+
 }
 
 export default CourseService.instance;
