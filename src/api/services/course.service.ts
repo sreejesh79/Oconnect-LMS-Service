@@ -153,11 +153,19 @@ class CourseService {
         }
     }
 
-    public async getByChapter(chapter: string): Promise<any> {
-        const query: any = {
-            chapter: chapter,
-            onModel: "Course"
-        } 
+    public async getByChapter(chapter: string = ""): Promise<any> {
+        let query: any = {};
+        if (!chapter || chapter == "") {
+            query = {
+                onModel: "Course"
+            } 
+        } else {
+            query = {
+                chapter: chapter,
+                onModel: "Course"
+            } 
+        }
+        
 
         const courseByChapter: any = await ChapterActivityService.get("", query,{path: 'sco'});
         return courseByChapter;
