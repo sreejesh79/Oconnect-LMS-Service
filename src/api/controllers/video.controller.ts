@@ -30,7 +30,7 @@ export class VideoController {
 
 
     public static async getByChapter(req, res): Promise<any> {
-        const response: any = await VideoService.getByChapter(req.params.chapter);
+        const response: any = await VideoService.getByChapter(req.params.chapterid);
         if (response.error) {
             return res.status(500).json(response);
         } else {

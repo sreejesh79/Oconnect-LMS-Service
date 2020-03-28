@@ -76,7 +76,7 @@ class VideoService {
             onModel: "Video"
         } 
 
-        const courseByChapter: any = await ChapterActivityService.get("", query,{path: 'file'});
+        const courseByChapter: any = await ChapterActivityService.get("", query,{path: 'videoUrl'});
        return courseByChapter;
     }
 }
