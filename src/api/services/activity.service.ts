@@ -1,5 +1,5 @@
 import CMI5Service from "./tracking/cmi5.service";
-import XAPIService from "./tracking/basetracking.service";
+import XAPIService from "./tracking/xapi.service";
 
 
 
@@ -28,12 +28,23 @@ class ActivityService {
     }
 
     public async create(data: any, trackMode: string, activity_path: string):Promise<any> {
+        let auData:any; 
         switch (trackMode) {
             case ActivityService.TRACK_MODE_CMI5 :
-                const auData = data.courseStructure.au;
+                auData = data.courseStructure.au;
                 auData.launch_url = `${activity_path}/${auData.url}`;
                 const newCMI5: any = await CMI5Service.create(auData);
                 return newCMI5;
+            break;
+             case ActivityService.TRACK_MODE_XAPI :
+                const activityData:any = data.tincan.activities.activity;
+                auData  = {};
+                auData.id = activityData.id;
+                auData.title = activityData.name;
+                auData.description = activityData.description;
+                auData.launch_url = `${activity_path}/${activityData.launch}`;
+                const newXAPI: any = await XAPIService.create(auData);
+                return newXAPI;
             break;
         
         }
@@ -41,9 +52,10 @@ class ActivityService {
 
     public  getTrackModeFromPackage(packageFolder): string {
         let trackMode: string = "none";
+       console.log('XAPIService.isExists  :',XAPIService.isExists(packageFolder));
         if (CMI5Service.isExists(packageFolder)) {
             trackMode = ActivityService.TRACK_MODE_CMI5;
-        } else {
+        } else if(XAPIService.isExists(packageFolder)) {
             trackMode = ActivityService.TRACK_MODE_XAPI;
         }
 
@@ -52,11 +64,11 @@ class ActivityService {
 
     public  verifyPackage( rootFolder: string, trackMode: string):any {
         let isValid: boolean = true;
-        
+        let data: any ;
         switch (trackMode) {
             case ActivityService.TRACK_MODE_CMI5 :
-                const data: any = CMI5Service.loadManifest(rootFolder);
-               // console.log("data", data);
+                data = CMI5Service.loadManifest(rootFolder);
+                console.log("data", data);
                 isValid = CMI5Service.amIValid(data, rootFolder);
                 if (isValid) {
                     return data;
@@ -65,10 +77,21 @@ class ActivityService {
                         error: true,
                         message: "not a valid cmi5.xml"
                     }
-                }
-                
+                }                
             break;
             case ActivityService.TRACK_MODE_XAPI :
+                data = XAPIService.loadManifest(rootFolder);
+                console.log("xml data", data);
+                isValid = XAPIService.amIValid(data, rootFolder);
+                if (isValid) {
+                    return data;
+                } else {
+                    return {
+                        error: true,
+                        message: "not a valid xapi.xml"
+                    }
+                }
+
             break;
         }
 

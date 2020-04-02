@@ -89,7 +89,7 @@ class CourseService {
                 const trackMode: string = ActivityService.instance.getTrackModeFromPackage(fileExtract.activity_path);
                 console.log("trackMode", trackMode);
                 const isValidData : any = ActivityService.instance.verifyPackage(fileExtract.activity_path, trackMode);
-                console.log("fileExtract", fileExtract);
+                console.log("fileExtract", fileExtract);                
                 if (isValidData && !isValidData.error) {
                     const newActivity: any = await ActivityService.instance.create(isValidData, trackMode, fileExtract.activity_name);
                     const newCourse: any = await this.createCourse(trackMode, isValidData, newActivity);
@@ -119,7 +119,7 @@ class CourseService {
             const date = new Date();
             const timestamp = date.getTime();
             const foldername = `activity${timestamp}`
-            const outputpath = path.join(rootPath, `./courses/${foldername}`);
+            const outputpath = path.join(rootPath, `../courses/${foldername}`);
             // console.log(file.path);
     
             const fileExtracted = fs.createReadStream(zipPath).pipe(unzipper.Extract({ path: outputpath }));
@@ -137,10 +137,10 @@ class CourseService {
     }
 
     private async createCourse(trackMode: string, data: any, newActivity: any): Promise <any> {
-        
+        let courseData: any;
         switch (trackMode) {
             case ActivityService.TRACK_MODE_CMI5:
-                const courseData: any = data.courseStructure.course;
+                courseData = data.courseStructure.course;
                 console.log("courseData", courseData);
                 courseData.title = JSON.stringify(courseData.title);
                 courseData.description = JSON.stringify(courseData.description);
@@ -150,6 +150,20 @@ class CourseService {
                 const newCourse: any = await CourseModel.create(courseData);
                 return newCourse;
                 break;
+            case ActivityService.TRACK_MODE_XAPI:
+                courseData = {};  
+                const activityData:any = data.tincan.activities.activity;
+                console.log('data  ',data);            
+                courseData.id = activityData['id'];
+                courseData.title = JSON.stringify(activityData.name);
+                courseData.description = JSON.stringify(activityData.description['#text']);
+                courseData.sco = newActivity._id;
+                courseData.onModel = "AU";
+                console.log('_courseData ',courseData);
+                const _newCourse: any = await CourseModel.create(courseData);
+                return _newCourse;
+                break;
+
         }
     }
 

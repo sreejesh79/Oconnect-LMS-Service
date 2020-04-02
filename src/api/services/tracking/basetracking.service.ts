@@ -17,7 +17,7 @@ class BaseTrackingService {
             parseAttributeValue : true
         }; 
         var jsonObj = parser.parse(CMI5XMLData, options);
-            console.log(jsonObj.courseStructure.course.title);
+          //  console.log(jsonObj.courseStructure.course.title);
             return jsonObj;
         } else {
             return {
