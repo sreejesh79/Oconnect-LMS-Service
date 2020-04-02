@@ -119,7 +119,7 @@ class CourseService {
             const date = new Date();
             const timestamp = date.getTime();
             const foldername = `activity${timestamp}`
-            const outputpath = path.join(rootPath, `../courses/${foldername}`);
+            const outputpath = path.join(rootPath, `./courses/${foldername}`);
             // console.log(file.path);
     
             const fileExtracted = fs.createReadStream(zipPath).pipe(unzipper.Extract({ path: outputpath }));
